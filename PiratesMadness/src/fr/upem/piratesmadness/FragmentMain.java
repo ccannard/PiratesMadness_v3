@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,11 +53,19 @@ public class FragmentMain extends Fragment{
 		bPlay.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(getActivity(), "button game", Toast.LENGTH_SHORT).show();
-//				fm.beginTransaction().add(android.R.id.content, new FragmentGame()).commit();  
-				ft.replace(android.R.id.content, new FragmentGame());
+//				Toast.makeText(getActivity(), "button game", Toast.LENGTH_SHORT).show();
+//				v.setEnabled(false);
+//				BattleGroundInitializer asyncTask = new BattleGroundInitializer((MainActivity)getActivity());
+//				asyncTask.execute((MainActivity)getActivity());
+//				Toast t = new Toast(getActivity().getApplicationContext());
+//				t.setDuration(Toast.LENGTH_SHORT);
+//				t.setGravity(Gravity.CENTER, 0, 0);
+//				LayoutInflater layoutInflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//				t.setView(layoutInflater.inflate(R.layout.fragment_initializer, null));
+//				t.show();
+				ft.replace(android.R.id.content, new Initializer());
 				ft.addToBackStack(null);
-				ft.commit();   
+				ft.commit();  
 			}
 		});
 		Button bSettings = (Button) v.findViewById(R.id.main_menu_settings);

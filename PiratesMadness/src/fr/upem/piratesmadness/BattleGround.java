@@ -98,13 +98,13 @@ public class BattleGround {
 		return r;
 	}
 
-	private Bitmap rescaledBitmap(View v,float new_width, float new_height, int drawable){	
-		Bitmap basic = BitmapFactory.decodeResource(v.getResources(),
-				drawable);
-		Matrix matrix = new Matrix();
-		matrix.postScale(new_width / basic.getWidth(),
-				new_height / basic.getHeight());
-		return Bitmap.createBitmap(basic, 0, 0, basic.getWidth(),
-				basic.getHeight(), matrix, true);
-	}	
+//	private Bitmap rescaledBitmap(View v,float new_width, float new_height, int drawable){	
+//		Bitmap basic = BitmapFactory.decodeResource(v.getResources(),
+//				drawable);
+//		Matrix matrix = new Matrix();
+//		matrix.postScale(new_width / basic.getWidth(),
+//				new_height / basic.getHeight());
+//		return Bitmap.createBitmap(basic, 0, 0, basic.getWidth(),
+//				basic.getHeight(), matrix, true);
+//	}	
 }
