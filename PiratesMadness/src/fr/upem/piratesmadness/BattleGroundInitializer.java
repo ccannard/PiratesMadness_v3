@@ -17,13 +17,12 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
-import android.view.SurfaceView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class BattleGroundInitializer extends
-AsyncTask<String, String, BattleGround> {
+AsyncTask<View, String, BattleGround> {
 	volatile MainActivity activity;
 
 	public BattleGroundInitializer(MainActivity act) {
@@ -39,7 +38,7 @@ AsyncTask<String, String, BattleGround> {
 	 * Params[2] : drawable pirate2
 	 */
 	@Override
-	protected BattleGround doInBackground(String... params) {
+	protected BattleGround doInBackground(View... v) {
 		try {
 			if(isCancelled()){
 				return null;
@@ -57,7 +56,7 @@ AsyncTask<String, String, BattleGround> {
 			Point pirate2 = new Point();
 			Log.d("PiratesMadness","activity : "+activity);
 //			Log.d("PiratesMadness","Test debug"+i);i++;
-			Scanner s = new Scanner(activity.getAssets().open(params[0]));
+			Scanner s = new Scanner(activity.getAssets().open(activity.getIntent().getExtras().getString("file_map")));
 			boolean firstCircle = true;
 			String line;
 //			Log.d("PiratesMadness","Test debug"+i);i++;
@@ -103,12 +102,17 @@ AsyncTask<String, String, BattleGround> {
 			}
 //			Log.d("PiratesMadness","Test debug"+i);i++;
 			publishProgress(activity.getString(R.string.init_progress3));
-			LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			LinearLayout fragment_game = (LinearLayout)layoutInflater.inflate(R.layout.fragment_game, null);
-			GameArea surfaceView = (GameArea) fragment_game.findViewById(R.id.fr_upem_piratesmadness_fragment_game_surfaceview);
-			new_width = (float)surfaceView.getWidth() / (float)(bg.width);
-			new_height = (float)surfaceView.getHeight() / (float)(height);
-			bg.texture = rescaledBitmap(fragment_game, new_width, new_height, R.drawable.wall);
+			//Ne peut pas inflaté un surfaceview a cause de la méthode Looper.myLooper() qui est appellée par le Handler.
+//			LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//			LinearLayout fragment_game = (LinearLayout)layoutInflater.inflate(R.layout.fragment_game, null);
+//			GameArea surfaceView = (GameArea) fragment_game.findViewById(R.id.fr_upem_piratesmadness_fragment_game_surfaceview);
+			Log.d("PiratesMadness",
+					"vue values; width:"+(float)v[0].getWidth() +"; height:"+(float)v[0].getHeight());
+			Log.d("PiratesMadness",
+					"vue "+v[0]);
+			new_width = (float)v[0].getWidth() / (float)(bg.width);
+			new_height = (float)v[0].getHeight() / (float)(height);
+			bg.texture = rescaledBitmap(v[0], new_width, new_height, R.drawable.wall);
 
 //			Log.d("PiratesMadness","Test debug"+i);i++;
 			activity.getResources().getIdentifier(activity.getIntent().getExtras().getString("pirate1_drawable"), "drawable", activity.getPackageName());
@@ -120,7 +124,7 @@ AsyncTask<String, String, BattleGround> {
 									(int)(pirate1.y*new_height)),
 									activity,
 									0,
-									rescaledBitmap(surfaceView,
+									rescaledBitmap(v[0],
 											new_width,
 											new_height,
 											activity.getResources().getIdentifier(activity.getIntent().getExtras().getString("pirate1_drawable"), "drawable", activity.getPackageName())
@@ -134,7 +138,7 @@ AsyncTask<String, String, BattleGround> {
 									(int)(pirate2.y*new_height)),
 									activity,
 									0,
-									rescaledBitmap(surfaceView,
+									rescaledBitmap(v[0],
 											new_width,
 											new_height,
 											activity.getResources().getIdentifier(activity.getIntent().getExtras().getString("pirate2_drawable"), "drawable", activity.getPackageName())
@@ -163,8 +167,10 @@ AsyncTask<String, String, BattleGround> {
 		Bitmap basic = BitmapFactory.decodeResource(ga.getResources(),
 				drawable);
 		Matrix matrix = new Matrix();
-		matrix.postScale(new_width / basic.getWidth(),
-			new_height / basic.getHeight());
+		Log.d("PiratesManess", "division; width:"+new_width / basic.getWidth()+"; height:"+new_height/basic.getHeight());
+		matrix.postScale(new_width/basic.getWidth(),
+			new_height/basic.getHeight());
+			Log.d("PiratesMadness","width:"+basic.getWidth()+", height:"+basic.getHeight());
 		return Bitmap.createBitmap(basic, 0, 0, basic.getWidth(),
 				basic.getHeight(), matrix, true);
 	}

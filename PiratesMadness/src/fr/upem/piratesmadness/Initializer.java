@@ -1,6 +1,7 @@
 package fr.upem.piratesmadness;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +14,7 @@ public class Initializer extends Fragment{
 	public Initializer() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -23,7 +24,7 @@ public class Initializer extends Fragment{
 		final MainActivity act = (MainActivity)getActivity();
 		final Button exit = (Button)v.findViewById(R.id.fr_upem_piratesmadness_BattleGroundInitialize_button);
 		exit.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				act.asyncTask.cancel(true);
@@ -39,13 +40,16 @@ public class Initializer extends Fragment{
 			extras = new Bundle();
 		}
 		extras.putInt("mode", 1);
-		activity.getIntent().putExtras(extras);
 		extras.putString("pirate1_drawable", "pirate1");
 		extras.putString("pirate2_drawable", "pirate2");
+		extras.putString("file_map", "1");
+		activity.getIntent().putExtras(extras);
 		//-------------------------------------------------------------------------------------
 		act.asyncTask= new BattleGroundInitializer(activity);
-		act.asyncTask.execute("1");
+
+		act.asyncTask.execute(((LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+				.inflate(R.layout.fragment_game, null));
 		return v;
 	}
-	
+
 }

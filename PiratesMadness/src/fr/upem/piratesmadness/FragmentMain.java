@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -64,6 +62,7 @@ public class FragmentMain extends Fragment{
 //				t.setView(layoutInflater.inflate(R.layout.fragment_initializer, null));
 //				t.show();
 				ft.replace(android.R.id.content, new Initializer());
+//				ft.replace(android.R.id.content, new FragmentGame());
 				ft.addToBackStack(null);
 				ft.commit();  
 			}
